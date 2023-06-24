@@ -8,21 +8,19 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class CharacterService {
 
-    private final CharacterConnectorService characterService;
+    private final CharacterConnectorService characterConnectorService;
 
     public DataDto getCharacters(int offset, int limit) {
-        return characterService.getCharacters(offset, limit).getBody().getData();
+        return characterConnectorService.getCharacters(offset, limit).getBody().getData();
     }
 
     public CharacterDto getCharacter(int id) {
         try {
-            return characterService.getCharacter(id).getBody().getData().getResults().get(0);
+            return characterConnectorService.getCharacter(id).getBody().getData().getResults().get(0);
         } catch (HttpClientErrorException e) {
             throw new CharacterNotFoundException();
         }

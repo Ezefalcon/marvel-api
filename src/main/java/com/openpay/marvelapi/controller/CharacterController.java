@@ -6,8 +6,6 @@ import com.openpay.marvelservice.model.dto.DataDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/character")
 public class CharacterController {
@@ -21,7 +19,7 @@ public class CharacterController {
         return characterService.getCharacters(offset, limit);
     }
 
-    @GetMapping("/character/{id}")
+    @GetMapping("/{id}")
     public CharacterDto getCharacter(@PathVariable("id") int id) {
         return characterService.getCharacter(id);
     }

@@ -15,5 +15,5 @@ public class LogRequest {
     private Long id;
     private String url;
     private String username;
-    private LocalDateTime localDateTime;
+    private LocalDateTime date;
 }

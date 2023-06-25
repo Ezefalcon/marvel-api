@@ -1,7 +1,7 @@
 package com.openpay.marvelapi.config;
 
 import com.openpay.marvelapi.model.LogRequest;
-import com.openpay.marvelapi.repository.LogRequestRepository;
+import com.openpay.marvelapi.service.LogRequestService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,15 +17,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class SaveRequestFilter extends OncePerRequestFilter {
 
-    private final LogRequestRepository logRequestRepository;
+    private final LogRequestService logRequestService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         LogRequest logRequest = new LogRequest();
         logRequest.setUrl(request.getRequestURI());
-        logRequest.setUsername(request.getUserPrincipal().getName());
-        logRequest.setLocalDateTime(LocalDateTime.now());
-        logRequestRepository.save(logRequest);
+        if (request.getUserPrincipal() != null) {
+            logRequest.setUsername(request.getUserPrincipal().getName());
+        }
+        logRequest.setDate(LocalDateTime.now());
+        logRequestService.save(logRequest);
         filterChain.doFilter(request, response);
     }
 }

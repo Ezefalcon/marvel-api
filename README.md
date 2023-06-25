@@ -11,9 +11,15 @@
 
 Swagger can be found here:
 
-http://localhost:8080/api/swagger-ui/
+http://localhost:8080/api/swagger-ui/index.html#/
 
-Basic Authentication is required:
+##Basic Authentication is required:
 
-###Username: admin
-###Password: admin
+Username: admin
+
+Password: admin
+
+##Request curl example
+
+    curl --location 'http://localhost:8080/api/log?page=0&limit=5' \
+    --header 'Authorization: Basic YWRtaW46YWRtaW4='

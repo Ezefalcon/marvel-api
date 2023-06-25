@@ -2,6 +2,7 @@ package com.openpay.marvelapi.controller;
 import com.openpay.marvelapi.model.LogRequest;
 import com.openpay.marvelapi.repository.LogRequestRepository;
 import com.openpay.marvelapi.service.CharacterService;
+import com.openpay.marvelapi.service.LogRequestService;
 import com.openpay.marvelservice.model.dto.CharacterDto;
 import com.openpay.marvelservice.model.dto.DataDto;
 import com.openpay.marvelservice.model.dto.ResponseDto;
@@ -25,7 +26,7 @@ public class CharacterControllerTest {
     private CharacterService characterService;
 
     @MockBean
-    private LogRequestRepository logRequestRepository;
+    private LogRequestService logRequestService;
 
     @Test
     @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
@@ -34,7 +35,7 @@ public class CharacterControllerTest {
         Mockito.when(characterService.getCharacters(Mockito.anyInt(), Mockito.anyInt()))
                 .thenReturn(expectedData);
 
-        Mockito.when(logRequestRepository.save(Mockito.any()))
+        Mockito.when(logRequestService.save(Mockito.any()))
                 .thenReturn(new LogRequest());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/character"))
@@ -49,7 +50,7 @@ public class CharacterControllerTest {
         Mockito.when(characterService.getCharacter(Mockito.anyInt()))
                 .thenReturn(characterDto);
 
-        Mockito.when(logRequestRepository.save(Mockito.any()))
+        Mockito.when(logRequestService.save(Mockito.any()))
                 .thenReturn(new LogRequest());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/character/1"))

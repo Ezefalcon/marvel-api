@@ -21,13 +21,15 @@ public class SaveRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        LogRequest logRequest = new LogRequest();
-        logRequest.setUrl(request.getRequestURI());
-        if (request.getUserPrincipal() != null) {
-            logRequest.setUsername(request.getUserPrincipal().getName());
+        if (!request.getMethod().equals("OPTIONS")) {
+            LogRequest logRequest = new LogRequest();
+            logRequest.setUrl(request.getRequestURI());
+            if (request.getUserPrincipal() != null) {
+                logRequest.setUsername(request.getUserPrincipal().getName());
+            }
+            logRequest.setDate(LocalDateTime.now());
+            logRequestService.save(logRequest);
         }
-        logRequest.setDate(LocalDateTime.now());
-        logRequestService.save(logRequest);
         filterChain.doFilter(request, response);
     }
 }

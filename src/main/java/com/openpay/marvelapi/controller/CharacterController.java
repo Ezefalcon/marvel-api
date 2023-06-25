@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/character")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CharacterController {
 
     @Autowired

@@ -1,4 +1,6 @@
 package com.openpay.marvelapi.controller;
+import com.openpay.marvelapi.model.LogRequest;
+import com.openpay.marvelapi.repository.LogRequestRepository;
 import com.openpay.marvelapi.service.CharacterService;
 import com.openpay.marvelservice.model.dto.CharacterDto;
 import com.openpay.marvelservice.model.dto.DataDto;
@@ -22,12 +24,18 @@ public class CharacterControllerTest {
     @MockBean
     private CharacterService characterService;
 
+    @MockBean
+    private LogRequestRepository logRequestRepository;
+
     @Test
     @WithMockUser(username = "admin", password = "admin", roles = "ADMIN")
     public void testGetCharacters() throws Exception {
         DataDto expectedData = new DataDto();
         Mockito.when(characterService.getCharacters(Mockito.anyInt(), Mockito.anyInt()))
                 .thenReturn(expectedData);
+
+        Mockito.when(logRequestRepository.save(Mockito.any()))
+                .thenReturn(new LogRequest());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/character"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -40,6 +48,9 @@ public class CharacterControllerTest {
         CharacterDto characterDto = new CharacterDto();
         Mockito.when(characterService.getCharacter(Mockito.anyInt()))
                 .thenReturn(characterDto);
+
+        Mockito.when(logRequestRepository.save(Mockito.any()))
+                .thenReturn(new LogRequest());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/character/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
